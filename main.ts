@@ -130,6 +130,12 @@ function validate(text: string): void {
   if (/[\u0000-\u001F\u007F]/.test(text)) {
     throw new Error("entry contains control characters");
   }
+  // Double spaces are almost always a typo, and in a one-line joke they
+  // waste two characters on nothing — reject them so a stray extra space
+  // is caught here instead of reaching the judge.
+  if (text.includes("  ")) {
+    throw new Error("entry contains consecutive spaces");
+  }
 }
 
 function main(): void {
